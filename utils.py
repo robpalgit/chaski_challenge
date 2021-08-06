@@ -12,13 +12,13 @@ zone_limits = [18, 28, 40]
 
 def determine_zone(bpm):
     if (bpm > 0) & (bpm <= zone_limits[0]):
-        return "1 (Low)"
+        return "Zone 1 (Low)"
     elif (bpm > zone_limits[0]) & (bpm <= zone_limits[1]):
-        return "2 (Medium)"
+        return "Zone 2 (Medium)"
     elif (bpm > zone_limits[1]) & (bpm <= zone_limits[2]):
-        return "3 (High)"
+        return "Zone 3 (High)"
     elif (bpm > zone_limits[2]):
-        return "4 (Extreme)"
+        return "Zone 4 (Extreme)"
     
 
 def generate_resampled_data(filepath):
@@ -51,7 +51,7 @@ def generate_resampled_data(filepath):
 
 def generate_lineplot(resampled_df):
     # Line plot
-    plt.figure(figsize=(10,2))
+    plt.figure(figsize=(10,3))
     resampled_df["signalFrequencyBpm"].plot(color="tab:cyan")
     if resampled_df["signalFrequencyBpm"].max() > zone_limits[0]:
         plt.axhline(y=zone_limits[0], color="lime", linestyle="--")
@@ -84,6 +84,7 @@ def generate_histogram(resampled_df):
         plt.axvline(x=zone_limits[2], color="red", linestyle="--")
     plt.title("Respiration Rate [BPM]")
     plt.xlabel("")
+    # Save plot
     histogram_path = os.path.join("static", "histogram" + ".png")
     plt.savefig(histogram_path)
     return histogram_path
@@ -107,9 +108,9 @@ def generate_piechart(resampled_df):
         labeldistance=1.2,
         textprops={"size": 12}
     )
-    plt.title("Zones", size=14)
+    #plt.title("Zones", size=14)
     plt.legend(loc='best', labels=labels)
-
+    # Save plot
     piechart_path = os.path.join("static", "piechart" + ".png")
     plt.savefig(piechart_path)
     return piechart_path

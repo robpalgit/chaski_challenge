@@ -59,6 +59,8 @@ def generate_lineplot(resampled_df):
         plt.axhline(y=zone_limits[1], color="tab:orange", linestyle="--")
     if resampled_df["signalFrequencyBpm"].max() > zone_limits[2]:
         plt.axhline(y=zone_limits[2], color="red", linestyle="--")
+    plt.title("Respiration Rate [BPM] vs. Time [hh:mm:ss]")
+    plt.xlabel("")
     plt.legend(["Respiration Rate [BPM]"], loc="best")
     #plt.xticks(rotation=45, ha="right")
     # Save plot
@@ -112,7 +114,7 @@ def generate_piechart(resampled_df):
         textprops={"size": 10}
     )
     #plt.title("Zones", size=14)
-    plt.legend(loc='best', labels=labels, fontsize=10)
+    plt.legend(loc='best', labels=labels, fontsize=8)
     # Save plot
     piechart_path = os.path.join("static", "piechart" + ".png")
     plt.savefig(piechart_path)

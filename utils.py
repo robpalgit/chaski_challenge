@@ -32,6 +32,7 @@ def create_dataframe(filepath):
 
     return df
 
+
 def generate_resampled_data(df):
 
     # Drop unnecessary columns

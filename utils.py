@@ -52,8 +52,13 @@ def generate_lineplot(resampled_df):
     # Line plot
     plt.figure(figsize=(10,2))
     resampled_df["signalFrequencyBpm"].plot(color="blue")
-    plt.axhline(y=18, color="lime", linestyle="--")
-    plt.axhline(y=28, color="tab:orange", linestyle="--")
+    if resampled_df["signalFrequencyBpm"].max() > 18:
+        plt.axhline(y=18, color="lime", linestyle="--")
+    if resampled_df["signalFrequencyBpm"].max() > 28:
+        plt.axhline(y=28, color="tab:orange", linestyle="--")
+    if resampled_df["signalFrequencyBpm"].max() > 40:
+        plt.axhline(y=40, color="red", linestyle="--")
+    plt.legend(["Respiration Rate [BPM]"])
     #plt.xticks(rotation=45, ha="right")
     # Save plot
     lineplot_path = os.path.join("static", "lineplot" + ".png")

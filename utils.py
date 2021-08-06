@@ -51,7 +51,7 @@ def generate_resampled_data(filepath):
 
 def generate_lineplot(resampled_df):
     # Line plot
-    plt.figure(figsize=(10,3))
+    plt.figure(figsize=(15,3))
     resampled_df["signalFrequencyBpm"].plot(color="tab:cyan")
     if resampled_df["signalFrequencyBpm"].max() > zone_limits[0]:
         plt.axhline(y=zone_limits[0], color="lime", linestyle="--")

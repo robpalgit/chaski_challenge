@@ -1,5 +1,8 @@
 <head>
     <title>Chaski - Activity report</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript">const SERVICE_URL = "{{ SERVICE_URL }}"</script>
+    <script src="{{ url_for('static', filename='home.js')}}"></script>
     <style>
         img {
           margin-left: auto;
@@ -9,7 +12,7 @@
 </head>
 <body>
     <h1>Activity report</h1>
-    <h2>Date and time:</h2>
+    <div id="uiStartDateTime"></div>
     <div class="row">
         <img src="{{ lineplot }}" alt="Lineplot" style="width:65%; display:block;">
     </div>
@@ -17,5 +20,8 @@
         <img class="img2" src="{{ histogram }}" alt="Histogram" style="width:20%; display:inline-block">
         <img class="img2" src="{{ piechart }}" alt="Piechart" style="width:30%; display:inline-block">
     </div>
-    <h3 style="text-align:center">BPM -- Min: xx - Max: xx - Avg: xx</h3>
+    <div id="uiBpmMin" style="text-align:center"></div>
+    <div id="uiBpmMax" style="text-align:center"></div>
+    <div id="uiBpmAvg" style="text-align:center"></div>
+    <div id="uiDuration" style="text-align:center"></div>
 </body>

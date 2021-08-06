@@ -72,13 +72,14 @@ def generate_piechart(resampled_df):
     data = np.unique(resampled_df["bpmZone"], return_counts=True)
     labels = data[0]
     n_cats = len(labels)
+    colors = ["blue", "green", "yellow", "red"]
     
     plt.figure(figsize=(4,3))
     plt.pie(
         x=data[1],
 #         labels=labels,
         radius=0.9,
-        colors=sb.color_palette('hls', n_cats),
+        colors=colors[:n_cats],
         startangle=90,
 #         explode=(0,0,0,0.2,0,0,0.1),
         autopct='%1.1f%%',

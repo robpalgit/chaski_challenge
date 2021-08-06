@@ -21,7 +21,7 @@ def determine_zone(bpm):
         return "Zone 4 (Extreme)"
     
 
-def generate_resampled_data(filepath):
+def create_dataframe(filepath):
     df = pd.read_csv(filepath, skiprows=1, header=1)
 
     # Convert dateTime
@@ -29,6 +29,10 @@ def generate_resampled_data(filepath):
 
     # Convert timeSeconds to time
     df["time"] = pd.to_datetime(df["timeSeconds"], unit="s")
+
+    return df
+
+def generate_resampled_data(df):
 
     # Drop unnecessary columns
     df.drop(["timeSeconds", "tempOral", "tempNasal", "signalPeriodSec", "dateTime"], axis=1, inplace=True)

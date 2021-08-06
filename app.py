@@ -15,7 +15,8 @@ def dash():
         filepath = os.path.join("static", file.filename)
         file.save(filepath)
 
-        resampled_df = utils.generate_resampled_data(filepath)
+        df = utils.create_dataframe(filepath)
+        resampled_df = utils.generate_resampled_data(df)
 
         lineplot_path = utils.generate_lineplot(resampled_df)
         histogram_path = utils.generate_histogram(resampled_df)

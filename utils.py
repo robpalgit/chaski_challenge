@@ -52,6 +52,8 @@ def generate_lineplot(resampled_df):
     # Line plot
     plt.figure(figsize=(10,2))
     resampled_df["signalFrequencyBpm"].plot(color="blue")
+    plt.axhline(y=18, color="lime", linestyle="--")
+    plt.axhline(y=28, color="tab:orange", linestyle="--")
     #plt.xticks(rotation=45, ha="right")
     # Save plot
     lineplot_path = os.path.join("static", "lineplot" + ".png")
@@ -72,7 +74,7 @@ def generate_piechart(resampled_df):
     data = np.unique(resampled_df["bpmZone"], return_counts=True)
     labels = data[0]
     n_cats = len(labels)
-    colors = ["blue", "green", "yellow", "red"]
+    colors = ["blue", "lime", "tab:orange", "red"]
     
     plt.figure(figsize=(4,3))
     plt.pie(

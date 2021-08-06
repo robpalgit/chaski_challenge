@@ -84,6 +84,9 @@ def generate_histogram(resampled_df):
         plt.axvline(x=zone_limits[2], color="red", linestyle="--")
     plt.title("Respiration Rate [BPM]")
     plt.xlabel("")
+    plt.xticks(np.arange(12,34,2))
+    plt.ylabel("")
+    plt.yticks([])
     # Save plot
     histogram_path = os.path.join("static", "histogram" + ".png")
     plt.savefig(histogram_path)
@@ -106,10 +109,10 @@ def generate_piechart(resampled_df):
 #         explode=(0,0,0,0.2,0,0,0.1),
         autopct='%1.1f%%',
         labeldistance=1.2,
-        textprops={"size": 12}
+        textprops={"size": 10}
     )
     #plt.title("Zones", size=14)
-    plt.legend(loc='best', labels=labels)
+    plt.legend(loc='best', labels=labels, fontsize=10)
     # Save plot
     piechart_path = os.path.join("static", "piechart" + ".png")
     plt.savefig(piechart_path)

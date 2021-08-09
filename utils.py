@@ -33,8 +33,18 @@ def create_dataframe(filepath):
     return df
 
 
-def generate_resampled_data(df):
+def calculate_metrics(df):
+    metrics = {
+        'start_datetime': df["dateTime"].dt.strftime("%Y-%m-%d %H:%M:%S")[0],
+        'duration': df["time"].dt.strftime("%H:%M:%S").max(),
+        'min_bpm': str(round(df["signalFrequencyBpm"].min(), 2)),
+        'max_bpm': str(round(df["signalFrequencyBpm"].max(), 2)),
+        'avg_bpm': str(round(df["signalFrequencyBpm"].mean(), 2))
+        }
+    return metrics
 
+
+def generate_resampled_data(df):
     # Drop unnecessary columns
     df.drop(["timeSeconds", "tempOral", "tempNasal", "signalPeriodSec", "dateTime"], axis=1, inplace=True)
 

@@ -1,12 +1,12 @@
-from flask import Flask
+from flask import Flask, json
 from flask import render_template
 from flask import request
 from flask import jsonify
 import os
 import utils
 
-service_url = {'SERVICE_URL': os.environ['SERVICE_URL']}
-#service_url = {'SERVICE_URL': "http://127.0.0.1:5000"}
+#service_url = {'SERVICE_URL': os.environ['SERVICE_URL']}
+service_url = {'SERVICE_URL': "http://127.0.0.1:5000"}
 
 app = Flask(__name__)
 
@@ -20,6 +20,7 @@ def dash():
         file.save(filepath)
 
         df = utils.create_dataframe(filepath)
+        metrics = utils.calculate_metrics(df)
         resampled_df = utils.generate_resampled_data(df)
 
         lineplot_path = utils.generate_lineplot(resampled_df)
@@ -31,8 +32,13 @@ def dash():
             lineplot=lineplot_path,
             histogram=histogram_path,
             piechart=piechart_path,
-             **service_url
-             )
+            start_datetime=metrics["start_datetime"],
+            duration=metrics["duration"],
+            min_bpm=metrics["min_bpm"],
+            max_bpm=metrics["max_bpm"],
+            avg_bpm=metrics["avg_bpm"],
+            **service_url
+            )
 
     return render_template(
         "home.html", 

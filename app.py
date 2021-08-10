@@ -5,7 +5,7 @@ import os
 import utils
 import tempfile
 
-service_url = {'SERVICE_URL': os.environ['SERVICE_URL']}
+#service_url = {'SERVICE_URL': os.environ['SERVICE_URL']}
 #service_url = {'SERVICE_URL': "http://127.0.0.1:5000"}
 
 app = Flask(__name__)
@@ -39,12 +39,12 @@ def dash():
             min_bpm=metrics["min_bpm"],
             max_bpm=metrics["max_bpm"],
             avg_bpm=metrics["avg_bpm"],
-            **service_url
+#            **service_url
             )
 
     return render_template(
         "home.html", 
-        **service_url
+#        **service_url
         )
 
 if __name__ == "__main__":

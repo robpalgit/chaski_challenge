@@ -4,9 +4,8 @@ import base64
 from io import BytesIO
 
 from matplotlib.figure import Figure
-import matplotlib.pyplot as plt
-plt.style.use("bmh")
-#plt.rcParams['figure.dpi'] = 72 #by default
+from matplotlib import style
+style.use("bmh")
 import seaborn as sb
 
 
@@ -25,7 +24,7 @@ def determine_zone(bpm):
 
 def create_dataframe(filepath):
     df = pd.read_csv(filepath, skiprows=1, header=1)
-
+    
     # Convert dateTime
     df["dateTime"] = pd.to_datetime(df["dateTime"], unit="ms")
 
@@ -64,6 +63,13 @@ def generate_resampled_data(df, resample_num=10):
     return resampled_df
 
 
+def save_figure_to_buffer(fig):
+    buf = BytesIO()
+    fig.savefig(buf, format="png")
+    data = base64.b64encode(buf.getbuffer()).decode("ascii")
+    return f"data:image/png;base64,{data}"
+
+
 def generate_lineplot(resampled_df):
     fig = Figure(figsize=(15,3))
     ax = fig.subplots()
@@ -79,12 +85,8 @@ def generate_lineplot(resampled_df):
     ax.set_title("Respiration Rate [BPM] vs. Time [hh:mm:ss]")
     ax.set_xlabel("")
     ax.legend(["Respiration Rate [BPM]"], loc="best")
-    # Save plot
-    buf = BytesIO()
-    fig.savefig(buf, format="png")
-    data = base64.b64encode(buf.getbuffer()).decode("ascii")
-    data = f"data:image/png;base64,{data}"
-    return data
+
+    return save_figure_to_buffer(fig)
 
 
 def generate_histogram(resampled_df):
@@ -109,15 +111,11 @@ def generate_histogram(resampled_df):
         ax.axvline(x=zone_limits[2], color="red", linestyle="--")
     ax.set_title("Respiration Rate [BPM]")
     ax.set_xlabel("")
-    ax.set_xticks(np.arange(min_value, max_value, 2))
+    ax.set_xticks(np.arange(min_value, max_value + 1, 2))
     ax.set_ylabel("")
     ax.set_yticks([])
-    # Save plot
-    buf = BytesIO()
-    fig.savefig(buf, format="png")
-    data = base64.b64encode(buf.getbuffer()).decode("ascii")
-    data = f"data:image/png;base64,{data}"
-    return data
+
+    return save_figure_to_buffer(fig)
 
 
 def generate_piechart(resampled_df):
@@ -142,9 +140,5 @@ def generate_piechart(resampled_df):
     )
     #plt.title("Zones", size=14)
     ax.legend(loc='best', labels=labels, fontsize=8)
-    # Save plot
-    buf = BytesIO()
-    fig.savefig(buf, format="png")
-    data = base64.b64encode(buf.getbuffer()).decode("ascii")
-    data = f"data:image/png;base64,{data}"
-    return data
+
+    return save_figure_to_buffer(fig)

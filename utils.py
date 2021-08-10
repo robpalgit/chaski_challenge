@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-#import os
 import base64
 from io import BytesIO
 
@@ -26,7 +25,7 @@ def determine_zone(bpm):
 
 def create_dataframe(filepath):
     df = pd.read_csv(filepath, skiprows=1, header=1)
-    
+
     # Convert dateTime
     df["dateTime"] = pd.to_datetime(df["dateTime"], unit="ms")
 
@@ -69,7 +68,6 @@ def generate_lineplot(resampled_df):
     fig = Figure(figsize=(15,3))
     ax = fig.subplots()
     # Line plot
-#    plt.figure(figsize=(15,3))
     resampled_df["signalFrequencyBpm"].plot(color="tab:cyan", ax=ax)
     # Horizontal lines
     if resampled_df["signalFrequencyBpm"].max() > zone_limits[0]:
@@ -81,9 +79,7 @@ def generate_lineplot(resampled_df):
     ax.set_title("Respiration Rate [BPM] vs. Time [hh:mm:ss]")
     ax.set_xlabel("")
     ax.legend(["Respiration Rate [BPM]"], loc="best")
-#    # Save plot
-#    lineplot_path = os.path.join(dir_path, "lineplot" + ".png")
-#    plt.savefig(lineplot_path)
+    # Save plot
     buf = BytesIO()
     fig.savefig(buf, format="png")
     data = base64.b64encode(buf.getbuffer()).decode("ascii")
@@ -92,15 +88,16 @@ def generate_lineplot(resampled_df):
 
 
 def generate_histogram(resampled_df):
+    min_value = int(resampled_df["signalFrequencyBpm"].min())
+    max_value = int(resampled_df["signalFrequencyBpm"].max())
     fig = Figure(figsize=(4,3))
     ax = fig.subplots()
     # Histogram
-#    plt.figure(figsize=(4,3))
     sb.histplot(
         x="signalFrequencyBpm", 
         data=resampled_df, 
         color="tab:cyan",
-        bins=np.arange(12,34,1),
+        bins=np.arange(min_value, max_value + 1),
         ax=ax
         )
     # Vertical lines
@@ -112,12 +109,10 @@ def generate_histogram(resampled_df):
         ax.axvline(x=zone_limits[2], color="red", linestyle="--")
     ax.set_title("Respiration Rate [BPM]")
     ax.set_xlabel("")
-    ax.set_xticks(np.arange(12,34,2))
+    ax.set_xticks(np.arange(min_value, max_value, 2))
     ax.set_ylabel("")
     ax.set_yticks([])
-#    # Save plot
-#    histogram_path = os.path.join(dir_path, "histogram" + ".png")
-#    plt.savefig(histogram_path)
+    # Save plot
     buf = BytesIO()
     fig.savefig(buf, format="png")
     data = base64.b64encode(buf.getbuffer()).decode("ascii")
@@ -133,7 +128,7 @@ def generate_piechart(resampled_df):
 
     fig = Figure(figsize=(4,3))
     ax = fig.subplots()
-#    plt.figure(figsize=(4,3))
+    # Pie chart
     ax.pie(
         x=data[1],
 #         labels=labels,
@@ -147,9 +142,7 @@ def generate_piechart(resampled_df):
     )
     #plt.title("Zones", size=14)
     ax.legend(loc='best', labels=labels, fontsize=8)
-#    # Save plot
-#    piechart_path = os.path.join(dir_path, "piechart" + ".png")
-#    plt.savefig(piechart_path)
+    # Save plot
     buf = BytesIO()
     fig.savefig(buf, format="png")
     data = base64.b64encode(buf.getbuffer()).decode("ascii")
